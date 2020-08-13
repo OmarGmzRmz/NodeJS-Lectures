@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>{{pageTitle}}</title>
+        <style>
+            body {
+                margin: 0px;
+            }
+            .header {
+                box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+            }
+            .firstPar {
+                background-color: darkred; 
+                margin: 80px; 
+                padding: 40px; 
+                color: red; 
+                border: 1px dashed orangered; 
+                text-align: center;
+            }
+            .secondPar {
+                background-color: blue; 
+                margin: 80px; 
+                padding: 40px; 
+                color: palegreen; 
+                border: 1px dashed orangered; 
+                text-align: center;
+            }
+             .thirdPar {
+                background-color: mediumpurple; 
+                margin: 80px; 
+                padding: 40px; 
+                color: palegreen; 
+                border: 1px dashed orangered; 
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        {{> header}}
+        <div class="firstPar">Welcome, this is the {{name}}' main site. </div>
+        <div class="secondPar">Look how my favorite goalkeeper flies.</div>
+         <img src="../img/terStegen2.jpg">
+        <div class="thirdPar">{{screamItAgain 'This is the best goalkeeper.'}}</div>
+        <img src="../img/terStegen.jpg">
+    </body>
+</html>
