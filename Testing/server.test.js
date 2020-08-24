@@ -45,7 +45,7 @@ describe('Server', () => { // Probar test suite
         request(app).get('/users')
             .expect(200)
             .expect((response) => {
-                expect(response.body.length[2]).toEqual();
+                expect(response.body.length).toEqual(2);
             })
             .end(done);
     });
