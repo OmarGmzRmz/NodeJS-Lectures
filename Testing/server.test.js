@@ -41,9 +41,19 @@ describe('Server', () => { // Probar test suite
             .end(done);
     });
 
+    it('should return 200 status', (done) => {
+        request(app).get('/users')
+            .expect(200)
+            .expect((response) => {
+                expect(response.body.length[2]).toEqual();
+            })
+            .end(done);
+    });
+
     //TODO: tarea
-    // 1. Programar otra assertion para la ruta users
-    // 2. la assertion tiene que ser satisfactoria y tienes que comprobar que la respuesta tenga un status 200
+    // ***1. Programar otra assertion para la ruta users 
+    // ***2. la assertion tiene que ser satisfactoria y tienes que comprobar que la respuesta tenga un status 200
     // 3. Comprobar que el cuerpo de la respuesta sea un arreglo
     // 4. Comprobar que el arreglo tiene dos elementos (Hint: arr.length devuelve la cantidad de objetos en el arreglo) 
+    // 5. Subir el resultado en git tanto a master como a feature/x (localmente)
 });
