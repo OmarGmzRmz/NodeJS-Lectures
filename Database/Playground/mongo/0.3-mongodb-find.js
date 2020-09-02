@@ -89,6 +89,32 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
         console.log(`Unable to fetch tpdp with id: ${new ObjectID('5f485760b3d39d1f341725c8')}`, err);
         throw err;
     });
+
+    // Count all todos in 'Todos' collection
+    // Set collection to a variable
+    const collection = db.collection('Todos');
+    // Call 'find()' on 'collection' to get the cursor count
+    const cursor = collection.find();
+    // Get the cursor count
+    cursor.count().then((count) => {
+        console.log('Todos count: ', count);
+    }, (err) => {
+        console.log('Unable to count todos', err);
+    });
+    // Do the samething but passing a callback
+    cursor.count((err, count) => {
+        if (err) {
+            console.log('Unable to count todos', err);
+        }
+        console.log('Todos count: ', count);
+    });
+
+    // TODO: Tarea
+    /* 
+    1.  Obtener todos los todos que esten incompletos en un cursor 
+    2. sobre el cursor obtener la cuenta 
+    3. Ordenarlos por fecha de creacion (cursor.sort())
+    */
     db.close();
 });
 
