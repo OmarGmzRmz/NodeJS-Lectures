@@ -90,11 +90,13 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
         throw err;
     });
 
-    // Count all todos in 'Todos' collection
+    /* // Count all todos in 'Todos' collection
     // Set collection to a variable
     const collection = db.collection('Todos');
     // Call 'find()' on 'collection' to get the cursor count
-    const cursor = collection.find();
+    const cursor = collection.find({
+        completed: true
+    });
     // Get the cursor count
     cursor.count().then((count) => {
         console.log('Todos count: ', count);
@@ -107,7 +109,7 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
             console.log('Unable to count todos', err);
         }
         console.log('Todos count: ', count);
-    });
+    }); */
 
     // TODO: Tarea
     /* 
@@ -115,6 +117,17 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     2. sobre el cursor obtener la cuenta 
     3. Ordenarlos por fecha de creacion (cursor.sort())
     */
+   const collection = db.collection('Todos');
+   
+   const cursor = collection.find({
+       completed: false
+   });
+  
+   cursor.sort([['createdAt', -1]]).toArray().then((docsArrary) => {
+       console.log('Todos sort by cration date', docsArrary);
+   }, (err) => {
+       console.log('Unable to sort todos', err);
+   });
     db.close();
 });
 

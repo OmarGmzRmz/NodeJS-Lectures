@@ -15,12 +15,30 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
 
     // deleteMany. Delete all documents that match the spicified filter
 
-    todosColletion.deleteMany({
+ /*    todosColletion.deleteMany({
         title: 'Test'
     }).then((res) => {
         console.log(`Deleted ${res.deletedCount} todos`);
     }, (err) => {
         console.log('Unable to delete todos', err);
-    })
+    }); */
+
+    // DeñeteOne. delete the first document that matched the filter in the query
+    todosColletion.deleteOne({
+        title: 'test'
+    }).then((res) => {
+        console.log(`Deleted ${res.deletedCount} todos`);
+    }, (err) => {
+        console.log('Unable to delete todos', err);
+    });
+
+    //findOneAndDelete. delete the first document that matches the filter in the query and return the deleted document
+    todosColletion.findOneAndDelete({
+        title: 'test'
+    }).then((res) => {
+        console.log('Delete todo', res.value);
+    }, (err) => {
+        console.log('Unable to delete todos', err);
+    });
     db.close();
 });
