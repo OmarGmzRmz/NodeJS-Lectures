@@ -18,7 +18,7 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     }, {
         // Operations to perform to the matched document
         // For operators visit 
-         $set: {completed: true} 
+         $set: {completed: true}
     }, {
         // Options 
         // For more options visit
@@ -38,5 +38,26 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
     4. que la query regrese el documento actualizado
     5. Imprimir el resultado al usuario (hint: utilizar .then(...))
     */
+
+    // 1.
+    
+    todosColletion.findOneAndUpdate({
+        user: 'Fulanito'
+    }, {
+    // 2.
+        $set: {user: 'Sin nombre'} ,
+    // 3.
+        $inc: {age: 1}
+    }, {
+    // 4.
+        returnOriginal: false
+    }
+    // 5.
+    ).then((res) => {
+        console.log('Updated todo: ', res);
+    }, (err) => {
+        console.log('Unable tu update the document', err);
+    });
+
     db.close();
 });
