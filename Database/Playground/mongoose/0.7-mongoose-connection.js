@@ -7,4 +7,4 @@ const DATABASE = 'TodoApp';
 
 mongoose.connect(`mongodb://${HOST}/${DATABASE}`);
 
-module.exports({mongoose});
+module.exports = {mongoose};
