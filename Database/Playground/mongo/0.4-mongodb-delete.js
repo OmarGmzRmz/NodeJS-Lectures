@@ -23,7 +23,7 @@ MongoClient.connect(`mongodb://${HOST}/${DATABASE}`, (error, db) => {
         console.log('Unable to delete todos', err);
     }); */
 
-    // DeñeteOne. delete the first document that matched the filter in the query
+    // DeleteOne. delete the first document that matched the filter in the query
     todosColletion.deleteOne({
         title: 'test'
     }).then((res) => {

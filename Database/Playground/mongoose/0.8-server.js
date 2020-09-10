@@ -8,7 +8,7 @@ const { mongo } = require('mongoose');
 const Todo = mongoose.model('Todo', {
     title: {
         type: String,
-        require: true,
+        required: true,
         // Validation. See all validations here: http://mongoosejs.com/docs/validation.html
         minlength: 1,
         trim: true
@@ -83,6 +83,20 @@ app.post('/todos', (request, response) => {
         response.status(400).send(err);
     });
 });
+
+  
+app.get('/todos', (request, response) => {
+    Todo.find().then((todos) => {
+        response.send({todos});
+    }, (err) => {
+                response.status(400).send(err);
+            });
+        });
+
+// TODO: TAREA
+// 1. Crear otro endpoint (GET) que se llame /todos
+// 2. Llamas a la base de datos para extraer todos los todos
+// 3. Crear en Postman la solicitud adecuada para obtener todos los todos
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
