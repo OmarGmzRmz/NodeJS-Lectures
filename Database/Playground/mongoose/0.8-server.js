@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const { mongoose } = require('./0.7-mongoose-connection');
 const { mongo } = require('mongoose');
+const { ObjectID } = require('mongodb');
 
 // Mongoose models
 const Todo = mongoose.model('Todo', {
@@ -84,7 +85,12 @@ app.post('/todos', (request, response) => {
     });
 });
 
-  
+// TODO: TAREA
+// 1. Crear otro endpoint (GET) que se llame /todos
+// 2. Llamas a la base de datos para extraer todos los todos
+// 3. Crear en Postman la solicitud adecuada para obtener todos los todos
+
+  // GET /todos. Create all todos
 app.get('/todos', (request, response) => {
     Todo.find().then((todos) => {
         response.send({todos});
@@ -93,13 +99,34 @@ app.get('/todos', (request, response) => {
             });
         });
 
-// TODO: TAREA
-// 1. Crear otro endpoint (GET) que se llame /todos
-// 2. Llamas a la base de datos para extraer todos los todos
-// 3. Crear en Postman la solicitud adecuada para obtener todos los todos
-
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
+});
+
+// PATCH /todos/:id Update todo
+app.patch('/todos/:id', (request, response) => {
+    const routeParams = request.params;
+    const todoId = routeParams.id;
+    console.log(routeParams);
+    Todo.findOneAndUpdate({_id: new ObjectID(todoId)}, request.body,
+     {new: true}
+     ).then((res) => {
+        response.send(res);
+     }).catch((err) => {
+         response.send(err);
+     });
+});
+
+//DELETE /todos/:id Delete todo.
+app.delete('/todos/:id', (request, response) => {
+    const routeParams = request.params;
+    const todoId = routeParams.id;
+    console.log(routeParams);
+    Todo.findByIdAndRemove({_id: new ObjectID(todoId)}).then((res) => {
+        response.send(res);
+     }).catch((err) => {
+         response.send(err);
+     });
 });
 
 // Export the app

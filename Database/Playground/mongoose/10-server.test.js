@@ -102,6 +102,7 @@ beforeEach((done) => {
     // 2. Hacer una assertion (it(...)) que pruebe una ruta del punto 1 para actualizar un todo.
     // 3. Al terminar la llamada de la prueba verificar que efectivamente el todo fue actualizado al nuevo valor.
 });
+// TODO: 
 
 describe('PATCH /todos/:id', () => {
     it ('Should update the todo with new data', (done) => {
@@ -127,6 +128,41 @@ describe('PATCH /todos/:id', () => {
             }
             Todo.findById(todoId).then((todo) => {
                 expect(todo.priority).toBe(2);
+                done();
+            }, (err) => {
+                done(err);
+            });
+        }); 
+
+        }).catch((err) => {
+            console.log(err);
+            done(err);
+        });
+
+    });
+});
+
+describe('DELETE /todos/:id', () => {
+    it ('Should delete a todo', (done) => {
+        const todo = new Todo({
+            "title": "[test] Some title",
+            "text": "some details about the todo",
+            "category": "Test",
+            "priority": 2
+        });
+
+        todo.save().then((res) => {
+        const todoId = res._id;
+        request(app)
+        .delete(`/todos/${new ObjectID(todoId)}`)
+        .send({})
+        .expect(200)
+        .end((err, response) => {
+            if (err) {
+                return done(err);
+            }
+            Todo.find().then((todos) => {
+                expect(todos.length).toBe(0);
                 done();
             }, (err) => {
                 done(err);
