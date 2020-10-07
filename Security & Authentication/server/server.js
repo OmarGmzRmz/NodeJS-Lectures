@@ -206,8 +206,22 @@ app.post('/users/login', (request, response) => {
 });
 
 // GET /user/me (Get user info)
+app.get('/users/me', authenticate, (request, response) => {
+    const user = request.user;
+    response.send(user.toJSON());
+});
 
-// DELETE /user/me/token (Delete user account: cascade deletion);
+// DELETE /users/me/token (Log out);
+app.delete('/users/me/token', authenticate, (request, response) => {
+    const user = request.user;
+    const token = request.token;
+    user.removeToken(token).then(() => {
+        // Return no content status: 204
+        response.status(204).send();
+    }).catch((error) => {
+        console.log(error);
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
