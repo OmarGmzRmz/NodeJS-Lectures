@@ -3,7 +3,8 @@ const validator = require('validator');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { reject } = require('lodash');
+
+mongoose.plugin(schema => { schema.options.usePushEach = true });
 
 // The 'Schema' propperty of 'mongoose' let us define a new sche,a for the usel model
 // We need the Schema propperty to define on the model methods and the instance methods
@@ -17,11 +18,11 @@ const UserSchema = new mongoose.Schema({
             // The user has to be unique
             unique: true,
             // Search in Google: 'mongoose custom validatos'
-            validate: {
+            /* validate: {
                 validator: validator.isEmail,
                 // Message in case email is invaid
                 message: '{VALUE} is not a valid email'
-            }
+            } */
         },
         password: {
             type: String,
@@ -86,24 +87,24 @@ UserSchema.methods.removeToken = function (token) {
 }
 
 // Hash the password before storing the user object (for security)
-UserSchema.pre('save', (next) => {
+UserSchema.pre('save', function(next) {
     // Get access to the individual document
-    const user = this;
+    var user = this;
     if (user.isModified('password')) {
         // Store user safely (with password or sensitive data hashed)
         bcrypt.genSalt(10, (error, salt) => {
-            bcrypt.hash(user.pasword, salt, (error, hash) => {
-                user.pasword = hash;
+            bcrypt.hash(user.password, salt, (error, hash) => {user.password = hash;
                 next();
             });
         });
-    } else {
+    } else{
         next();
     }
 });
 
-//MODEL METHODS:
+// MODEL METHODS:
 
+// Find user by token
 UserSchema.statics.findByToken = function (token) {
     const user = this;
     let decoded;
@@ -115,7 +116,7 @@ UserSchema.statics.findByToken = function (token) {
             reject(); // Access denied
         }); */
         // Alternatively
-        return Promise.reject();
+        return Promise.reject('Invalid auth token');
     }
     return User.findOne({
         '_id': decoded._id,
@@ -124,10 +125,12 @@ UserSchema.statics.findByToken = function (token) {
     })
 }
 
+// Find by credentials 
 UserSchema.statics.findByCredentials = function(email, password) {
     const User = this;
     return User.findOne({email}).then((user) => {
-        if (user) {
+        if (!user) {
+            console.log('Invalid email');
             return Promise.reject();
         }
         return new Promise((resolve, reject) => {
