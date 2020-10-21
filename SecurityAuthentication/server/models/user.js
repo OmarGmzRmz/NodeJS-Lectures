@@ -18,11 +18,11 @@ const UserSchema = new mongoose.Schema({
             // The user has to be unique
             unique: true,
             // Search in Google: 'mongoose custom validatos'
-            /* validate: {
+            validate: {
                 validator: validator.isEmail,
                 // Message in case email is invaid
                 message: '{VALUE} is not a valid email'
-            } */
+            }
         },
         password: {
             type: String,

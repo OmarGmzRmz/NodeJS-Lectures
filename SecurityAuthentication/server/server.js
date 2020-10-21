@@ -76,7 +76,7 @@ app.get('/todos/:id', authenticate, (request, response) => {
         creator: request.user.id
     }).then((todo) => {
         if(!todo) {
-            return response.status(400).send();
+            return response.status(404).send();
         }
         response.send(todo);
     }, (err) => {
@@ -147,6 +147,9 @@ app.delete('/todos/:id',authenticate,  (request, response) => {
         return response.status(400).send();
     }
     Todo.findById(todoId).then((todo) => {
+        if(!todo) {
+            return response.status(404).send();
+        }
         if(todo.creator != userId) {
             return response.status(401).send();
         }
@@ -180,13 +183,13 @@ app.delete('/todos/:id',authenticate,  (request, response) => {
 
 // POST /user
 app.post('/users', (request, response) => {
-    console.log('Request body', request.body);
+   // console.log('Request body', request.body);
     const body = _.pick(request.body, ['email', 'password']);
     const user = new User(body);
     user.save().then((user) => {
-        console.log('Saved new user', user.toJSON());
+       // console.log('Saved new user', user.toJSON());
         response.send(user);
-    }, (err) => {
+    }, (dbError) => {
         console.log('Error saving new error', dbError);
         response.status(400).send(dbError);
     });
@@ -198,7 +201,7 @@ app.post('/users/login', (request, response) => {
     const credentials = _.pick(request.body, ['email', 'password']);
     User.findByCredentials(credentials.email, credentials.password).then((user) => {
         return user.generateAuthToken().then((token) => {
-            console.log(token);
+           // console.log(token);
             response.header('Authorization', token).send(user);
         });
     }).catch((err) => {

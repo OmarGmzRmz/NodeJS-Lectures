@@ -1,5 +1,5 @@
 // Determine the environment is which the application is running
-const env = process.env.JWT_SECRET || 'development';
+const env = process.env.NODE_ENV || 'development';
 
 if (env === 'development' || env === 'test') {
     // Load the non versioned 
