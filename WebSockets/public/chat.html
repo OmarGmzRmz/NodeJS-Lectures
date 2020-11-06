@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <!-- Set the app title -->
+        <title>Chat | ChatApp</title>
+        <!-- Import styles from stylesheet -->
+        <link rel="stylesheet" href="./css/styles.css">
+        <!-- Specify how we want our application to be rendered -->
+        <meta name="viewport" content="width=device-width, intial-scale=1, user-scalable=no">
+    </head>
+    <body class="chat">
+        <!--<p>Welcome to the Chat App</p>-->
+
+        <!-- Create a list to hold the users logged into the application-->
+        <div class="chat__sidebar">
+            <!-- Create a title for the sidebar-->
+            <h3>People</h3>
+            <!--List of people-->
+            <div id="users"></div>
+        </div>
+
+        <!-- Crate the space that will be housing the messages, imput field and the send button-->
+        <div class="chat__main">
+            <!-- Create a list where will render the messages-->
+            <ol class="chat__messages" id="messages"></ol>
+
+            <!-- Create a section to hold the text fiel and the send button-->
+            <div class="chat__footer">
+                <!-- Create a form so the user can type the data that will be sent-->
+                <form id="message-form">
+                    <!-- Craete a text field so the user can type the message-->
+                    <input id="message-input" name="message" type="text" placeholder="Message" autofocus autocomplete="off"/>
+                    <button>Send</button>
+                </form>
+                <!-- Place an other button to send location-->
+                <button id= "send-location">Send Location</button>
+            </div>
+        </div>
+
+        <!-- Templates -->
+        <!-- Create a template to render a single message-->
+        <script id="message-template" type="text/template">
+            <li class="message"> 
+                <div class="message__title">
+                    <h4>{{from}}</h4>
+                    <span>{{createdAt}}</span>
+                </div>
+                <div class="message__body">
+                    <p>{{text}}</p>
+                </div>
+            </li>
+        </script>
+
+        <!-- Create a template for rendering a location message -->
+        <script id="location-message-template" type="text/template">
+            <li class="message">
+                <div claas="message__title">
+                    <h4>{{from}}</h4>
+                    <span>{{createdAt}}</span>
+                </div>
+                <div claas="message__body">
+                    <p>
+                        <a href="{{url}}" target "_blank">My Location: {{url}}</a>
+                    </p>
+                </div>
+            </li>
+        </script>
+
+        <!-- Require Libraries-->
+
+        <!-- Load in the socket.io library so we can call some socket.io methods -->
+        <script src= "/socket.io/socket.io.js"></script>
+        <!-- Load in jQuery-->
+        <script src="/js/libs/jquery-3.2.1.min.js"></script>
+        <!-- Load in Moment JS-->
+        <script src="/js/libs/moment.js"></script>
+        <!-- Load in Mustache-->
+        <script src="/js/libs/mustache.js"></script>
+        <!-- Load in Deparams to get access to the param of the url-->
+        <script src="/js/libs/deparam.js"></script>
+
+        <!-- Require our own code-->
+
+        <script src= "/js/chat.js"></script>
+    </body>
+</html>
